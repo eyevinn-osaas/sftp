@@ -100,7 +100,7 @@ python3 -m http.server -b 0.0.0.0 8080 -d /var/www &
 
 if $startSshd; then
     log "Executing sshd"
-    exec /usr/sbin/sshd -D -e
+    exec /usr/sbin/sshd -D -e -p 2022
 else
     log "Executing $*"
     exec "$@"
