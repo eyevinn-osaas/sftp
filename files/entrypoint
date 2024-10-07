@@ -16,6 +16,10 @@ function log() {
     echo "[$0] $*" >&2
 }
 
+if [ -n "$USERNAME" ] && [ -n "$PASSWORD" ]; then
+    SFTP_USERS="$USERNAME:$PASSWORD:1001"
+fi
+
 # Allow running other programs, e.g. bash
 if [[ -z "$1" || "$1" =~ $reArgsMaybe ]]; then
     startSshd=true
@@ -89,6 +93,10 @@ if [ -d /etc/sftp.d ]; then
     done
     unset f
 fi
+
+# Simple dummy health check
+mkdir /var/www
+python3 -m http.server -b 0.0.0.0 8080 -d /var/www &
 
 if $startSshd; then
     log "Executing sshd"
